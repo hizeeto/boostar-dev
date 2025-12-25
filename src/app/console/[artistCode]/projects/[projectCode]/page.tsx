@@ -176,7 +176,7 @@ export default function ProjectDetailPage() {
         </div>
         
         {/* 오른쪽: 사이드바 */}
-        <div className="w-[320px] flex-shrink-0">
+        <div className="hidden md:block w-[320px] flex-shrink-0">
           <ProjectSidebar projectId={project.id} />
         </div>
       </div>

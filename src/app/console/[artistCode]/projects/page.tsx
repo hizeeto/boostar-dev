@@ -545,7 +545,7 @@ export default function ProjectsPage() {
   return (
     <div className="flex flex-1 flex-col gap-6 p-6">
       {/* 헤더: 탭 메뉴 및 검색/필터 */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         {/* 탭 메뉴 */}
         <div className="flex items-center border rounded-md overflow-hidden">
           <button
@@ -597,7 +597,7 @@ export default function ProjectsPage() {
         {/* 검색 및 필터 */}
         <div className="flex items-center gap-2">
           {/* 검색 */}
-          <div className="relative w-64">
+          <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="프로젝트 검색..."
@@ -629,9 +629,12 @@ export default function ProjectsPage() {
           </div>
 
           {/* 새 프로젝트 추가 */}
-          <Button onClick={() => setIsCreateOpen(true)}>
+          <Button onClick={() => setIsCreateOpen(true)} className="hidden md:flex">
             <Plus className="h-4 w-4 mr-0" />
             새 프로젝트
+          </Button>
+          <Button onClick={() => setIsCreateOpen(true)} size="icon" className="md:hidden">
+            <Plus className="h-4 w-4" />
           </Button>
         </div>
       </div>

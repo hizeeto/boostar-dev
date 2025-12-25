@@ -227,9 +227,9 @@ export default function HomePage() {
       {/* 이달의 아티스트 섹션 */}
       <div className="flex flex-col gap-4 mt-8">
         <Card className="bg-gray-50 p-6 border-0">
-          <div className="flex gap-8 items-stretch">
+          <div className="flex flex-col md:flex-row gap-8 items-stretch">
             {/* 좌측: 텍스트 영역 */}
-            <div className="flex-1 flex flex-col gap-6 max-w-[50%] justify-between">
+            <div className="flex-1 flex flex-col gap-6 md:max-w-[50%] justify-between">
               <h2 className="text-xl font-semibold">이달의 아티스트</h2>
               
               <div className="flex flex-col gap-6 mt-auto">
@@ -237,32 +237,32 @@ export default function HomePage() {
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center flex-shrink-0 overflow-hidden">
                     <img
-                      src={getArtistImageUrl("harin.png")}
-                      alt="하린"
+                      src={getArtistImageUrl("lmh.png")}
+                      alt="이민형"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement
                         target.style.display = 'none'
                         const parent = target.parentElement
                         if (parent) {
-                          parent.innerHTML = '<span class="text-white text-2xl font-bold">H</span>'
+                          parent.innerHTML = '<span class="text-white text-2xl font-bold">L</span>'
                         }
                       }}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <h3 className="text-xl font-semibold">HARIN</h3>
-                    <p className="text-lg font-medium">하린</p>
+                    <h3 className="text-xl font-semibold">Lee Minhyung</h3>
+                    <p className="text-lg font-medium">이민형</p>
                   </div>
                 </div>
                 
                 {/* 설명 문단 */}
                 <div className="flex flex-col gap-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    하린(HARIN)은 낮은 톤의 보컬과 담담한 문장으로 감정의 결을 촘촘히 기록하는 싱어송라이터다. 크게 흔들리기보다, 사소한 흔들림이 남기는 잔향을 따라가며 일상의 순간들을 노래로 번역한다. 멜로디는 단정하고, 편곡은 필요한 만큼만 남겨 보컬의 숨과 여백이 곡의 중심이 된다.
+                    어바웃나인(ABOUTNINE)의 리더이자 기타리스트로, 팀의 사운드를 &apos;질감과 간격&apos;으로 설계하는 인물이다. 선명한 톤보다 반투명한 레이어를 선호하며, 과감한 전개보다는 반복 속에서 미세하게 변하는 뉘앙스를 쌓아 곡의 온도를 만든다. 리프 하나가 곡 전체의 방향을 결정한다는 믿음으로, 짧은 동기에서 출발해 구조와 감정선을 정교하게 확장한다.
                   </p>
                   <p>
-                    작업은 대개 짧은 문장 한 줄에서 시작한다. &apos;말을 아낄수록 더 선명해지는 것들&apos;을 붙잡아, 반복되는 생활 속 미묘한 변화를 섬세하게 쌓아 올린다. 하린의 노래는 과장된 위로 대신, 감정을 있는 그대로 놓아두는 방식으로 듣는 사람의 하루에 조용히 스며든다.
+                    작업 과정에서는 멜로디와 리듬의 과잉을 경계하고, 악기들이 서로를 덮지 않도록 &apos;남겨두는 공간&apos;을 먼저 확보한다. 라이브에서는 밴드의 텐션을 크게 끌어올리기보다, 합주의 호흡을 안정적으로 붙잡아 몰입을 길게 유지하는 스타일이다. 이민형의 기타는 앞에 나서기보다 노래의 뒤를 받치며, 듣는 사람에게 &apos;지금 이 순간의 공기&apos;를 남기는 사운드로 팀의 정체성을 선명하게 만든다.
                   </p>
                 </div>
               </div>
@@ -270,9 +270,9 @@ export default function HomePage() {
             
             {/* 우측: 이미지 영역 */}
             <div className="flex-1 flex items-stretch">
-              <div className="w-full bg-white rounded-lg overflow-hidden">
+              <div className="w-full h-full max-h-[360px] bg-white rounded-lg overflow-hidden">
                 <img
-                  src={getCoverImageUrl("46773.jpg")}
+                  src={getArticleThumbnailUrl("403858.jpg")}
                   alt="이달의 아티스트"
                   className="w-full h-full object-cover"
                   onError={(e) => {

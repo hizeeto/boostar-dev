@@ -55,7 +55,7 @@ export function RollingBanner({
 
   return (
     <div className={cn("relative w-full overflow-hidden rounded-xl", className)}>
-      <div className="relative h-[200px] md:h-[300px]">
+      <div className="relative h-[360px] md:h-[300px]">
         {/* 배너 아이템들 */}
         <div
           className="flex h-full transition-transform duration-500 ease-in-out"
@@ -87,7 +87,7 @@ export function RollingBanner({
               {/* 그라데이션 오버레이 */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               {/* 텍스트 콘텐츠 */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="absolute bottom-0 left-0 right-0 px-6 pt-6 pb-12 md:p-8">
                 <h3 className="text-lg md:text-2xl font-bold text-white mb-2">
                   {item.title}
                 </h3>
@@ -105,7 +105,7 @@ export function RollingBanner({
             <Button
               variant="ghost"
               size="icon"
-              className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
+              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
               onClick={goToPrev}
               onMouseEnter={() => setIsAutoPlaying(false)}
               onMouseLeave={() => setIsAutoPlaying(true)}
@@ -115,7 +115,7 @@ export function RollingBanner({
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
+              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
               onClick={goToNext}
               onMouseEnter={() => setIsAutoPlaying(false)}
               onMouseLeave={() => setIsAutoPlaying(true)}

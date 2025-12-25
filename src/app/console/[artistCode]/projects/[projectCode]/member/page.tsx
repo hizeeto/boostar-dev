@@ -460,7 +460,7 @@ export default function ProjectMemberPage() {
           {/* 멤버 테이블 */}
           <div className="rounded-md border">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[800px]">
                 <thead>
                   <tr className="border-b bg-muted/50">
                     <th 

@@ -542,7 +542,8 @@ export default function WorkflowPage() {
 
         {/* 테이블 영역 */}
         <div className="flex-1 overflow-auto p-6">
-          <table className="w-full">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[1000px]">
             <thead className="bg-gray-50 border-b sticky top-0 z-10">
               <tr>
                 {visibleColumns.name && (
@@ -684,6 +685,7 @@ export default function WorkflowPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

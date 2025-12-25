@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import { Toaster } from "@/components/ui/sonner"
+import { AutoLoginProvider } from "@/components/auto-login-provider"
 
 export const metadata: Metadata = {
   title: "Boostar",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="overflow-x-hidden">
-        {children}
+        <AutoLoginProvider>
+          {children}
+        </AutoLoginProvider>
         <Toaster />
       </body>
     </html>

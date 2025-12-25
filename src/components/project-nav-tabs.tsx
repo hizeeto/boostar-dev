@@ -5,13 +5,13 @@ import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 const tabs = [
-  { id: "feed", label: "피드", path: "" },
-  { id: "workflow", label: "워크플로우", path: "/workflow" },
-  { id: "calendar", label: "일정", path: "/calendar" },
-  { id: "release", label: "릴리즈", path: "/release" },
-  { id: "library", label: "라이브러리", path: "/library" },
-  { id: "member", label: "멤버", path: "/member" },
-  { id: "settings", label: "설정", path: "/settings" },
+  { id: "feed", label: "피드", path: "", disabled: false },
+  { id: "workflow", label: "워크플로우", path: "/workflow", disabled: false },
+  { id: "calendar", label: "일정", path: "/calendar", disabled: true },
+  { id: "release", label: "릴리즈", path: "/release", disabled: true },
+  { id: "library", label: "라이브러리", path: "/library", disabled: true },
+  { id: "member", label: "멤버", path: "/member", disabled: false },
+  { id: "settings", label: "설정", path: "/settings", disabled: true },
 ]
 
 interface ProjectNavTabsProps {
@@ -60,6 +60,7 @@ export function ProjectNavTabs({ projectCode, projectId, artistCode }: ProjectNa
   const activeTab = mounted ? getActiveTab() : "feed"
 
   const handleTabClick = (tab: typeof tabs[0]) => {
+    if (tab.disabled) return
     const basePath = `/console/${artistCode}/projects/${projectCode}`
     router.push(`${basePath}${tab.path}`)
   }
@@ -67,12 +68,16 @@ export function ProjectNavTabs({ projectCode, projectId, artistCode }: ProjectNa
   // 클라이언트에서 마운트되기 전에는 빈 div 반환
   if (!mounted) {
     return (
-      <div className="sticky top-16 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex-shrink-0">
+      <div className="border-b bg-background flex-shrink-0">
         <nav className="flex gap-6 px-4">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              className="relative py-4 text-sm font-medium text-muted-foreground"
+              disabled={tab.disabled}
+              className={cn(
+                "relative py-4 text-sm font-medium text-muted-foreground",
+                tab.disabled && "opacity-50 cursor-not-allowed"
+              )}
             >
               {tab.label}
             </button>
@@ -83,17 +88,20 @@ export function ProjectNavTabs({ projectCode, projectId, artistCode }: ProjectNa
   }
 
   return (
-    <div className="sticky top-16 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex-shrink-0">
+    <div className="border-b bg-background flex-shrink-0">
       <nav className="flex gap-6 px-4">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabClick(tab)}
+            disabled={tab.disabled}
             className={cn(
               "relative py-4 text-sm font-medium transition-colors",
+              tab.disabled && "opacity-50 cursor-not-allowed",
               activeTab === tab.id
                 ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground hover:text-foreground",
+              tab.disabled && "hover:text-muted-foreground"
             )}
           >
             {tab.label}

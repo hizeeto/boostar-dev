@@ -28,6 +28,7 @@ export function NavMain({
     url: string
     icon?: LucideIcon | string
     isActive?: boolean
+    disabled?: boolean
     items?: {
       title: string
       url: string
@@ -45,8 +46,18 @@ export function NavMain({
           if (!item.items || item.items.length === 0) {
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                  <a href={item.url} className="group/item">
+                <SidebarMenuButton 
+                  asChild 
+                  tooltip={item.title} 
+                  isActive={item.isActive}
+                  className={item.disabled ? "opacity-50" : ""}
+                >
+                  <a 
+                    href={item.disabled ? "#" : item.url} 
+                    className="group/item" 
+                    onClick={item.disabled ? (e) => e.preventDefault() : undefined}
+                    style={item.disabled ? { cursor: 'not-allowed' } : undefined}
+                  >
                     {item.icon && (
                       typeof item.icon === 'string' ? (
                         <span 

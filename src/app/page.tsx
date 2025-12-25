@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { getDemoSession } from "@/lib/demo-session"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -16,6 +17,14 @@ export default function Home() {
   useEffect(() => {
     const loadUserData = async () => {
       try {
+        // 데모 세션이 있으면 즉시 콘솔로 리다이렉트
+        const demoSession = getDemoSession()
+        if (demoSession) {
+          console.log('[메인 페이지] 자동 로그인 감지, 콘솔로 리다이렉트')
+          router.replace('/console')
+          return
+        }
+
         const { data: { user }, error: userError } = await supabase.auth.getUser()
         
         // 로그인하지 않은 경우 홈 화면 표시

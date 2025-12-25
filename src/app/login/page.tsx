@@ -1,6 +1,22 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { getDemoSession } from "@/lib/demo-session"
 import { LoginForm } from "@/components/login-form"
 
 export default function LoginPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    // 자동 로그인이 적용되어 있으므로 즉시 콘솔로 리다이렉트
+    const session = getDemoSession()
+    if (session) {
+      console.log('[로그인 페이지] 자동 로그인 감지, 콘솔로 리다이렉트')
+      router.push('/console')
+    }
+  }, [router])
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

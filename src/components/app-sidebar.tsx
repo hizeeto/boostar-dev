@@ -46,6 +46,7 @@ const getNavMainItems = (pathname: string, artistCode: string | null) => {
       url: "#",
       icon: "/assets/search.svg",
       isActive: false,
+      disabled: true,
     },
     {
       title: "홈",
@@ -58,12 +59,14 @@ const getNavMainItems = (pathname: string, artistCode: string | null) => {
       url: "#",
       icon: "/assets/alert.svg",
       isActive: false,
+      disabled: true,
     },
     {
       title: "메시지",
       url: "#",
       icon: "/assets/email.svg",
       isActive: false,
+      disabled: true,
     },
     {
       title: "아티스트 스페이스 관리",
@@ -86,24 +89,28 @@ const getExploreItems = () => [
     url: "#",
     icon: "/assets/storefront.svg",
     isActive: false,
+    disabled: true,
   },
   {
     title: "공모전",
     url: "#",
     icon: "/assets/emoji_events.svg",
     isActive: false,
+    disabled: true,
   },
   {
     title: "플레이스",
     url: "#",
     icon: "/assets/place.svg",
     isActive: false,
+    disabled: true,
   },
   {
     title: "콘텐츠·커뮤니티",
     url: "#",
     icon: "/assets/article.svg",
     isActive: false,
+    disabled: true,
   },
 ]
 

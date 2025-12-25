@@ -147,9 +147,9 @@ function ConsoleLayoutContentInner({ user, children }: ConsoleLayoutProps) {
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="overflow-x-hidden">
       <AppSidebar user={user} />
-      <SidebarInset className="flex flex-col">
+      <SidebarInset className="flex flex-col overflow-x-hidden w-full max-w-full">
         <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator
@@ -219,7 +219,7 @@ function ConsoleLayoutContentInner({ user, children }: ConsoleLayoutProps) {
             </nav>
           </div>
         )}
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 flex flex-col min-h-0 overflow-x-hidden w-full max-w-full">
           {children || (
             <div className="flex flex-1 flex-col gap-4 p-4">
               <div className="text-center">

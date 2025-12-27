@@ -49,6 +49,11 @@ const getPageTitle = (pathname: string): string => {
       return "아티스트 스페이스 관리"
     }
     
+    // /console/[artistCode]/messages
+    if (segments.length === 3 && segments[2] === "messages") {
+      return "메시지"
+    }
+    
     // 기타 동적 경로
     if (segments.length >= 3) {
       const lastSegment = segments[segments.length - 1]

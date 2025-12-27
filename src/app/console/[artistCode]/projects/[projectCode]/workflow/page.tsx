@@ -339,8 +339,13 @@ export default function WorkflowPage() {
 
   const loadProject = useCallback(async () => {
     if (!activeArtist) {
-      console.error("[워크플로우] 활성 아티스트가 없습니다")
-      if (artistContext && !artistContext.loading) {
+      // 아티스트가 아직 로딩 중이면 기다림
+      if (artistContext?.loading) {
+        return
+      }
+      // 로딩이 완료되었지만 아티스트가 없는 경우에만 리다이렉트
+      if (artistContext && !artistContext.loading && artistContext.artists.length === 0) {
+        console.error("[워크플로우] 활성 아티스트가 없습니다")
         router.push(`/console/${artistCode}/projects`)
       }
       return
@@ -390,9 +395,13 @@ export default function WorkflowPage() {
     if (activeArtist) {
       loadProject()
     } else if (artistContext && !artistContext.loading) {
-      router.push(`/console/${artistCode}/projects`)
+      // 아티스트 목록이 비어있을 때만 리다이렉트
+      if (artistContext.artists.length === 0) {
+        router.push(`/console/${artistCode}/projects`)
+      }
+      // 아티스트 목록이 있으면 activeArtist가 설정될 때까지 기다림
     }
-  }, [projectCode, activeArtist?.id, artistContext?.loading, loadProject, artistCode, router])
+  }, [projectCode, activeArtist?.id, artistContext?.loading, artistContext?.artists.length, loadProject, artistCode, router, artistContext])
 
   // 검색 및 상태 필터링
   const filteredTasks = tasks.filter((task) => {

@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils"
 const tabs = [
   { id: "feed", label: "피드", path: "", disabled: false },
   { id: "workflow", label: "워크플로우", path: "/workflow", disabled: false },
-  { id: "calendar", label: "일정", path: "/calendar", disabled: true },
-  { id: "release", label: "릴리즈", path: "/release", disabled: true },
-  { id: "library", label: "라이브러리", path: "/library", disabled: true },
+  { id: "calendar", label: "일정", path: "/calendar", disabled: false },
+  { id: "release", label: "릴리즈", path: "/release", disabled: false },
+  { id: "library", label: "라이브러리", path: "/library", disabled: false },
   { id: "member", label: "멤버", path: "/member", disabled: false },
-  { id: "settings", label: "설정", path: "/settings", disabled: true },
+  { id: "settings", label: "설정", path: "/settings", disabled: false },
 ]
 
 interface ProjectNavTabsProps {

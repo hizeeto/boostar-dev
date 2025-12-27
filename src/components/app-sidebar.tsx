@@ -16,6 +16,8 @@ import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { ArtistSwitcher } from "@/components/artist-switcher"
+import { SearchDialog } from "@/components/search-dialog"
+import { NotificationDialog } from "@/components/notification-dialog"
 import { type ProjectColor } from "@/hooks/use-projects"
 import { useProjectsContext } from "@/hooks/use-projects-context"
 import { useArtistContext } from "@/hooks/use-artist-context"
@@ -36,7 +38,12 @@ const defaultData = {
   },
 }
 
-const getNavMainItems = (pathname: string, artistCode: string | null) => {
+const getNavMainItems = (
+  pathname: string, 
+  artistCode: string | null,
+  onSearchClick?: () => void,
+  onNotificationClick?: () => void
+) => {
   // artistCode가 없으면 빈 문자열로 처리 (나중에 리다이렉트될 것)
   const baseUrl = artistCode ? `/console/${artistCode}` : "/console"
   
@@ -46,7 +53,8 @@ const getNavMainItems = (pathname: string, artistCode: string | null) => {
       url: "#",
       icon: "/assets/search.svg",
       isActive: false,
-      disabled: true,
+      disabled: false,
+      onClick: onSearchClick,
     },
     {
       title: "홈",
@@ -59,14 +67,14 @@ const getNavMainItems = (pathname: string, artistCode: string | null) => {
       url: "#",
       icon: "/assets/alert.svg",
       isActive: false,
-      disabled: true,
+      disabled: false,
+      onClick: onNotificationClick,
     },
     {
       title: "메시지",
-      url: "#",
+      url: artistCode ? `${baseUrl}/messages` : "#",
       icon: "/assets/email.svg",
-      isActive: false,
-      disabled: true,
+      isActive: pathname.includes("/messages"),
     },
     {
       title: "아티스트 스페이스 관리",
@@ -127,6 +135,8 @@ export function AppSidebar({
   const pathname = usePathname()
   const userData = user || defaultData.user
   const { activeArtist } = useArtistContext()
+  const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
+  const [isNotificationDialogOpen, setIsNotificationDialogOpen] = React.useState(false)
   
   // activeArtist에서 artistCode 가져오기 (URL보다 우선)
   // URL에서도 추출 시도 (사용자 프로필 페이지 등에서 사용)
@@ -134,7 +144,20 @@ export function AppSidebar({
   const urlArtistCode = pathSegments[1] === 'console' && pathSegments[2] ? pathSegments[2] : null
   const artistCode = activeArtist?.artist_code || urlArtistCode
   
-  const navMainItems = getNavMainItems(pathname, artistCode)
+  const handleSearchClick = React.useCallback(() => {
+    setIsSearchDialogOpen(true)
+  }, [])
+
+  const handleNotificationClick = React.useCallback(() => {
+    setIsNotificationDialogOpen(true)
+  }, [])
+  
+  const navMainItems = getNavMainItems(
+    pathname, 
+    artistCode, 
+    handleSearchClick,
+    handleNotificationClick
+  )
   const exploreItems = getExploreItems()
   const { projects, loading } = useProjectsContext()
 
@@ -167,19 +190,23 @@ export function AppSidebar({
   }, [projects, artistCode])
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <ArtistSwitcher />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={navMainItems} />
-        <NavMain items={exploreItems} label="탐색" />
-        {!loading && <NavProjects projects={projectItems} />}
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={userData} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+    <>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarHeader>
+          <ArtistSwitcher />
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain items={navMainItems} />
+          <NavMain items={exploreItems} label="탐색" />
+          {!loading && <NavProjects projects={projectItems} />}
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser user={userData} />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+      <SearchDialog open={isSearchDialogOpen} onOpenChange={setIsSearchDialogOpen} />
+      <NotificationDialog open={isNotificationDialogOpen} onOpenChange={setIsNotificationDialogOpen} />
+    </>
   )
 }

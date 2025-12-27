@@ -29,6 +29,7 @@ export function NavMain({
     icon?: LucideIcon | string
     isActive?: boolean
     disabled?: boolean
+    onClick?: () => void
     items?: {
       title: string
       url: string
@@ -55,7 +56,16 @@ export function NavMain({
                   <a 
                     href={item.disabled ? "#" : item.url} 
                     className="group/item" 
-                    onClick={item.disabled ? (e) => e.preventDefault() : undefined}
+                    onClick={(e) => {
+                      if (item.disabled) {
+                        e.preventDefault()
+                        return
+                      }
+                      if (item.onClick) {
+                        e.preventDefault()
+                        item.onClick()
+                      }
+                    }}
                     style={item.disabled ? { cursor: 'not-allowed' } : undefined}
                   >
                     {item.icon && (

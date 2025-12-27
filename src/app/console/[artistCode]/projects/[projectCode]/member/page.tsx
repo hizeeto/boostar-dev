@@ -100,8 +100,13 @@ export default function ProjectMemberPage() {
   // 프로젝트 정보 로드
   const loadProject = useCallback(async () => {
     if (!activeArtist) {
-      console.error("[프로젝트 멤버] 활성 아티스트가 없습니다")
-      if (artistContext && !artistContext.loading) {
+      // 아티스트가 아직 로딩 중이면 기다림
+      if (artistContext?.loading) {
+        return
+      }
+      // 로딩이 완료되었지만 아티스트가 없는 경우에만 리다이렉트
+      if (artistContext && !artistContext.loading && artistContext.artists.length === 0) {
+        console.error("[프로젝트 멤버] 활성 아티스트가 없습니다")
         router.push(`/console/${artistCode}/projects`)
       }
       setLoading(false)
@@ -174,10 +179,14 @@ export default function ProjectMemberPage() {
       loadProject()
     } else if (artistContext && !artistContext.loading) {
       // 아티스트가 로드되었지만 activeArtist가 없는 경우
-      console.error("활성 아티스트가 없습니다")
-      router.push(`/console/${artistCode}/projects`)
+      // 아티스트 목록이 비어있을 때만 리다이렉트
+      if (artistContext.artists.length === 0) {
+        console.error("활성 아티스트가 없습니다")
+        router.push(`/console/${artistCode}/projects`)
+      }
+      // 아티스트 목록이 있으면 activeArtist가 설정될 때까지 기다림
     }
-  }, [projectCode, activeArtist?.id, artistContext?.loading, loadProject, artistCode, router])
+  }, [projectCode, activeArtist?.id, artistContext?.loading, artistContext?.artists.length, loadProject, artistCode, router, artistContext])
   
   // 현재 사용자가 프로젝트 소유자인지 확인
   const isCurrentUserOwner = currentUserId === project?.owner_id
@@ -442,11 +451,11 @@ export default function ProjectMemberPage() {
       <ProjectNavTabs projectCode={projectCode} projectId={project.id} artistCode={artistCode} />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-6 md:p-10">
-        <div className="space-y-6 max-w-full">
+        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex flex-col gap-4">
           {/* 헤더 */}
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">멤버</h2>
+            <h2 className="text-xl font-semibold">멤버</h2>
             <Button
               onClick={() => setIsAddMemberDialogOpen(true)}
               size="sm"

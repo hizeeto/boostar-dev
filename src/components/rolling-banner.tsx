@@ -55,7 +55,7 @@ export function RollingBanner({
 
   return (
     <div className={cn("relative w-full overflow-hidden rounded-xl", className)}>
-      <div className="relative h-[360px] md:h-[300px]">
+      <div className="relative h-[450px]">
         {/* 배너 아이템들 */}
         <div
           className="flex h-full transition-transform duration-500 ease-in-out"

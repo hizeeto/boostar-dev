@@ -29,8 +29,14 @@ export default function ProjectDetailPage() {
 
   const loadProject = useCallback(async () => {
     if (!activeArtist) {
-      console.error("[프로젝트 상세] 활성 아티스트가 없습니다")
-      if (artistContext && !artistContext.loading) {
+      // 아티스트가 아직 로딩 중이면 기다림
+      if (artistContext?.loading) {
+        return
+      }
+      // 로딩이 완료되었지만 아티스트가 없는 경우에만 리다이렉트
+      // (아티스트가 로드되기 전에 리다이렉트하지 않도록)
+      if (artistContext && !artistContext.loading && artistContext.artists.length === 0) {
+        console.error("[프로젝트 상세] 활성 아티스트가 없습니다")
         router.push(`/console/${artistCode}/projects`)
       }
       return
@@ -132,14 +138,23 @@ export default function ProjectDetailPage() {
   }, [activeArtist, projectCode, artistCode, router, artistContext])
 
   useEffect(() => {
+    // 아티스트 컨텍스트가 아직 로딩 중이면 기다림
+    if (!artistContext || artistContext.loading) {
+      return
+    }
+    
     if (activeArtist) {
       loadProject()
-    } else if (artistContext && !artistContext.loading) {
+    } else {
       // 아티스트가 로드되었지만 activeArtist가 없는 경우
-      console.error("활성 아티스트가 없습니다")
-      router.push(`/console/${artistCode}/projects`)
+      // 아티스트 목록이 비어있을 때만 리다이렉트 (로딩 중이 아닐 때)
+      if (artistContext.artists.length === 0) {
+        console.error("활성 아티스트가 없습니다")
+        router.push(`/console/${artistCode}/projects`)
+      }
+      // 아티스트 목록이 있으면 activeArtist가 설정될 때까지 기다림
     }
-  }, [projectCode, activeArtist?.id, artistContext?.loading, loadProject, artistCode, router])
+  }, [projectCode, activeArtist?.id, artistContext?.loading, artistContext?.artists.length, loadProject, artistCode, router, artistContext])
 
   // 아티스트가 로딩 중이거나 없으면 로딩 표시
   if (!artistContext || artistContext.loading || !activeArtist || loading) {
